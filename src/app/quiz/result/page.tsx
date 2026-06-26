@@ -240,7 +240,19 @@ export default function ResultPage() {
             <div>
               <p className="text-[10px] font-bold tracking-[0.15em] text-violet-400 uppercase mb-3">Plus qu&apos;une étape</p>
               <h2 className="text-lg font-extrabold text-white mb-5">Où t&apos;envoyer le rapport ?</h2>
-              <LeadForm profileCode={profile.code} topCareer={careers[0]?.title ?? ""} />
+              <LeadForm
+                profileCode={profile.code}
+                topCareer={careers[0]?.title ?? ""}
+                dominants={profile.dominants}
+                normalizedScores={normalized}
+                careers={careers.map(c => ({
+                  title: c.title,
+                  hollandCode: c.hollandCode,
+                  sector: c.sector,
+                  description: c.description,
+                  avgSalary: c.avgSalary,
+                }))}
+              />
             </div>
           )}
         </div>

@@ -2,12 +2,23 @@
 
 import { useState } from "react";
 
+interface CareerSummary {
+  title: string;
+  hollandCode: string;
+  sector: string;
+  description: string;
+  avgSalary: string;
+}
+
 interface LeadFormProps {
   profileCode: string;
   topCareer: string;
+  dominants: string[];
+  normalizedScores: Record<string, number>;
+  careers: CareerSummary[];
 }
 
-export default function LeadForm({ profileCode, topCareer }: LeadFormProps) {
+export default function LeadForm({ profileCode, topCareer, dominants, normalizedScores, careers }: LeadFormProps) {
   const [form, setForm] = useState({ prenom: "", email: "", telephone: "" });
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -20,7 +31,7 @@ export default function LeadForm({ profileCode, topCareer }: LeadFormProps) {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, profileCode, topCareer }),
+        body: JSON.stringify({ ...form, profileCode, topCareer, dominants, normalizedScores, careers }),
       });
       if (!res.ok) throw new Error();
       setStatus("success");
