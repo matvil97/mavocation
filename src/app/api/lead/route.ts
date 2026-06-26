@@ -165,34 +165,85 @@ export async function POST(req: NextRequest) {
 
   try {
     const sortedDims = Object.entries(body.normalizedScores ?? {})
-      .sort(([, a], [, b]) => b - a)
-      .map(([dim, pct]) => `${dim} ${pct}%`)
-      .join(" · ");
+      .sort(([, a], [, b]) => b - a);
+
+    const adminBarsHtml = sortedDims.map(([dim, pct]) => {
+      const filled = Math.round((pct as number) * 1.6);
+      const empty = 160 - filled;
+      return `
+      <table cellpadding="0" cellspacing="0" style="margin-bottom:8px;width:100%"><tr>
+        <td style="width:18px;font-family:monospace;font-size:12px;font-weight:700;color:#64748b;padding-right:8px;vertical-align:middle;">${dim}</td>
+        <td style="vertical-align:middle;">
+          <table cellpadding="0" cellspacing="0" style="border-radius:3px;overflow:hidden;background:#e2e8f0;">
+            <tr>
+              <td style="background:${DIM_COLORS[dim] ?? "#7c3aed"};height:7px;width:${filled}px;"></td>
+              <td style="height:7px;width:${empty}px;"></td>
+            </tr>
+          </table>
+        </td>
+        <td style="width:36px;text-align:right;font-family:monospace;font-size:11px;color:#64748b;padding-left:8px;vertical-align:middle;">${pct}%</td>
+      </tr></table>`;
+    }).join("");
+
+    const adminCareersHtml = (body.careers ?? []).map((c, i) => `
+      <tr style="${i > 0 ? "border-top:1px solid #f1f5f9;" : ""}">
+        <td style="padding:10px 0;vertical-align:top;">
+          ${i === 0 ? `<div style="font-size:10px;font-weight:700;color:#7c3aed;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px;">Top match</div>` : ""}
+          <div style="font-size:14px;font-weight:700;color:#1e293b;">${c.title}</div>
+          <div style="font-size:12px;color:#94a3b8;">${c.sector}</div>
+        </td>
+        <td style="padding:10px 0 10px 12px;vertical-align:top;text-align:right;white-space:nowrap;">
+          <span style="font-family:monospace;font-size:11px;font-weight:700;color:#7c3aed;background:#ede9fe;padding:2px 7px;border-radius:5px;">${c.hollandCode}</span>
+          <div style="font-size:11px;color:#10b981;font-weight:600;margin-top:4px;">${c.avgSalary}</div>
+        </td>
+      </tr>
+    `).join("");
 
     await Promise.all([
       resend.emails.send({
         from: "Mavocation <onboarding@resend.dev>",
         to: "vilmenmatthieu@gmail.com",
-        subject: `Nouveau lead – ${body.prenom} (${body.profileCode})`,
+        subject: `Lead ${body.prenom} · ${body.profileCode} · ${body.topCareer}`,
         html: `
-          <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;">
-            <h2 style="margin:0 0 16px;color:#111;">Nouveau lead Mavocation</h2>
-            <table style="width:100%;border-collapse:collapse;font-size:14px;">
-              <tr><td style="padding:6px 0;color:#666;width:120px;">Prénom</td><td style="padding:6px 0;font-weight:600;">${body.prenom}</td></tr>
-              <tr><td style="padding:6px 0;color:#666;">Email</td><td style="padding:6px 0;"><a href="mailto:${body.email}">${body.email}</a></td></tr>
-              <tr><td style="padding:6px 0;color:#666;">Téléphone</td><td style="padding:6px 0;">${body.telephone || "—"}</td></tr>
-              <tr><td style="padding:6px 0;color:#666;">Code RIASEC</td><td style="padding:6px 0;font-weight:700;color:#7c3aed;">${body.profileCode}</td></tr>
-              <tr><td style="padding:6px 0;color:#666;">Scores</td><td style="padding:6px 0;font-size:13px;">${sortedDims}</td></tr>
-              <tr><td style="padding:6px 0;color:#666;">Métier principal</td><td style="padding:6px 0;">${body.topCareer}</td></tr>
-            </table>
-          </div>
-        `,
+<div style="font-family:system-ui,-apple-system,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;">
+
+  <div style="padding:18px 24px;background:#07070f;display:flex;align-items:center;gap:8px;">
+    <span style="font-size:16px;font-weight:900;color:#a78bfa;">ma</span><span style="font-size:16px;font-weight:900;color:#fff;">vocation</span>
+    <span style="margin-left:auto;font-size:11px;font-weight:700;color:#475569;background:#1e293b;padding:3px 10px;border-radius:20px;letter-spacing:0.05em;">NOUVEAU LEAD</span>
+  </div>
+
+  <div style="padding:20px 24px;background:linear-gradient(135deg,#faf5ff,#f0f9ff);border-bottom:1px solid #e2e8f0;">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td style="vertical-align:top;">
+        <div style="font-size:11px;font-weight:700;color:#7c3aed;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;">Profil RIASEC</div>
+        <div style="font-size:48px;font-weight:900;color:#7c3aed;font-family:monospace;letter-spacing:0.1em;line-height:1;">${body.profileCode}</div>
+        <div style="font-size:12px;color:#64748b;margin-top:4px;">${(body.dominants ?? []).map(d => DIM_LABELS[d] ?? d).join(" · ")}</div>
+      </td>
+      <td style="vertical-align:top;text-align:right;">
+        <div style="font-size:22px;font-weight:800;color:#1e293b;">${body.prenom}</div>
+        <div style="margin-top:6px;"><a href="mailto:${body.email}" style="font-size:13px;color:#7c3aed;">${body.email}</a></div>
+        <div style="font-size:13px;color:#64748b;margin-top:2px;">${body.telephone || "—"}</div>
+      </td>
+    </tr></table>
+  </div>
+
+  <div style="padding:20px 24px;border-bottom:1px solid #e2e8f0;">
+    <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">Spectre RIASEC</div>
+    ${adminBarsHtml}
+  </div>
+
+  <div style="padding:20px 24px;">
+    <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Métiers compatibles</div>
+    <table width="100%" cellpadding="0" cellspacing="0">${adminCareersHtml}</table>
+  </div>
+
+</div>`,
       }),
 
       resend.emails.send({
         from: "Mavocation <onboarding@resend.dev>",
         to: body.email,
-        subject: `Ton profil RIASEC ${body.profileCode} – Mavocation`,
+        subject: `${body.prenom}, ton profil ${body.profileCode} est prêt – Mavocation`,
         html: buildUserEmail(body),
       }),
     ]);
