@@ -11,19 +11,13 @@ export default function HomePage() {
       </div>
 
       {/* Nav */}
-      <nav className="relative px-8 py-6 flex items-center justify-between max-w-5xl mx-auto w-full">
+      <nav className="relative px-8 py-6 flex items-center max-w-5xl mx-auto w-full">
         <span className="text-lg font-bold tracking-tight">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">
             ma
           </span>
           <span className="text-white">vocation</span>
         </span>
-        <Link
-          href="/quiz"
-          className="text-sm text-slate-400 hover:text-white transition-colors font-medium"
-        >
-          Commencer →
-        </Link>
       </nav>
 
       {/* Hero */}
