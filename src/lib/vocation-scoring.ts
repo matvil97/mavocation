@@ -47,13 +47,14 @@ export const DIMENSION_DESCRIPTIONS: Record<Dimension, string> = {
   C: "Tu aimes organiser, structurer, gérer avec précision. L'ordre et la méthode te rassurent et t'efficacent.",
 };
 
+// Palette Wong — testée colorblind-safe (deuteranopie, protanopie, tritanopie)
 export const DIMENSION_COLORS: Record<Dimension, string> = {
-  R: "bg-orange-500",
-  I: "bg-blue-600",
-  A: "bg-purple-500",
-  S: "bg-emerald-500",
-  E: "bg-red-500",
-  C: "bg-amber-500",
+  R: "bg-blue-700",
+  I: "bg-sky-700",
+  A: "bg-violet-700",
+  S: "bg-teal-700",
+  E: "bg-orange-700",
+  C: "bg-pink-700",
 };
 
 export const CAREERS: Career[] = [

@@ -38,49 +38,48 @@ export default function QuizStepper() {
   }
 
   return (
-    <div className="min-h-screen bg-[#07070f] text-white flex flex-col">
-
-      {/* Background glow */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-15%] right-[20%] w-[400px] h-[400px] bg-violet-600/15 rounded-full blur-[100px]" />
-      </div>
+    <div className="min-h-screen flex flex-col">
 
       {/* Progress bar */}
-      <div className="relative w-full h-0.5 bg-white/[0.06]">
+      <div className="w-full h-1 bg-zinc-100 dark:bg-white/[0.06]">
         <div
-          className="h-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
+          className="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-500"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       {/* Header */}
-      <div className="relative px-6 py-5 flex items-center justify-between max-w-2xl mx-auto w-full">
+      <div className="px-6 py-5 flex items-center justify-between max-w-2xl mx-auto w-full">
         <span className="text-sm font-bold tracking-tight">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">ma</span>
-          <span className="text-white">vocation</span>
+          <span className="text-violet-600 dark:text-violet-400">ma</span>
+          <span>vocation</span>
         </span>
-        <span className="text-xs font-mono text-slate-600 tracking-widest">
+        <span className="text-xs font-mono text-zinc-400 dark:text-zinc-600 tracking-widest">
           {String(step + 1).padStart(2, "0")} / {QUESTIONS.length}
         </span>
       </div>
 
       {/* Question */}
-      <div className="relative flex-1 flex flex-col items-center justify-center px-6 pb-16">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-16">
         <div className="w-full max-w-2xl">
 
-          {/* Step indicator */}
+          {/* Step indicators */}
           <div className="flex gap-1 mb-8">
             {QUESTIONS.map((_, i) => (
               <div
                 key={i}
-                className={`h-0.5 flex-1 rounded-full transition-all duration-300 ${
-                  i < step ? "bg-violet-500" : i === step ? "bg-violet-400" : "bg-white/[0.08]"
+                className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+                  i < step
+                    ? "bg-violet-600 dark:bg-violet-500"
+                    : i === step
+                    ? "bg-violet-400 dark:bg-violet-400"
+                    : "bg-zinc-200 dark:bg-white/[0.08]"
                 }`}
               />
             ))}
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-10 leading-snug">
+          <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-10 leading-snug">
             {question.text}
           </h2>
 
@@ -97,18 +96,18 @@ export default function QuizStepper() {
                     group w-full text-left px-5 py-4 rounded-xl border text-sm font-medium
                     transition-all duration-200 cursor-pointer disabled:cursor-not-allowed
                     ${isSelected
-                      ? "border-violet-500/80 bg-violet-500/15 text-white"
-                      : "border-white/[0.06] bg-white/[0.03] text-slate-300 hover:border-violet-500/40 hover:bg-violet-500/08 hover:text-white"
+                      ? "border-violet-500 bg-violet-50 dark:bg-violet-500/15 text-violet-900 dark:text-white"
+                      : "border-zinc-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.03] text-zinc-700 dark:text-zinc-300 hover:border-violet-300 dark:hover:border-violet-500/40 hover:bg-violet-50 dark:hover:bg-violet-500/[0.08]"
                     }
-                    ${animating && !isSelected ? "opacity-30" : ""}
+                    ${animating && !isSelected ? "opacity-40" : ""}
                   `}
                 >
                   <span className="flex items-center gap-4">
                     <span
                       className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-mono transition-colors
                         ${isSelected
-                          ? "bg-violet-500 text-white"
-                          : "bg-white/[0.06] text-slate-600 group-hover:text-slate-400"
+                          ? "bg-violet-600 text-white"
+                          : "bg-zinc-100 dark:bg-white/[0.06] text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-400"
                         }
                       `}
                     >
@@ -116,7 +115,7 @@ export default function QuizStepper() {
                     </span>
                     <span>{option.label}</span>
                     {isSelected && (
-                      <span className="ml-auto text-violet-400">✓</span>
+                      <span className="ml-auto text-violet-600 dark:text-violet-400 font-bold">✓</span>
                     )}
                   </span>
                 </button>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function MentionsLegalesPage() {
   return (
-    <div className="min-h-screen bg-[#07070f] text-white">
+    <div className="min-h-screen">
       <div className="max-w-2xl mx-auto px-6 py-16">
 
         {/* Nav */}
@@ -19,23 +19,23 @@ export default function MentionsLegalesPage() {
         </div>
 
         <div className="mb-10">
-          <p className="text-[10px] font-bold tracking-[0.15em] text-violet-400 uppercase mb-2">Légal</p>
-          <h1 className="text-3xl font-extrabold text-white">Mentions légales</h1>
+          <p className="text-[10px] font-bold tracking-[0.15em] text-violet-600 dark:text-violet-400 uppercase mb-2">Légal</p>
+          <h1 className="text-3xl font-extrabold text-zinc-900 dark:text-white">Mentions légales</h1>
         </div>
 
-        <div className="space-y-10 text-sm text-slate-400 leading-relaxed">
+        <div className="space-y-10 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
 
           <section>
-            <h2 className="text-base font-bold text-white mb-3">1. Éditeur du site</h2>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white mb-3">1. Éditeur du site</h2>
             <p>
-              Le site <strong className="text-slate-300">mavocation.fr</strong> est édité à titre personnel par :
+              Le site <strong className="text-zinc-700 dark:text-zinc-300">mavocation.fr</strong> est édité à titre personnel par :
             </p>
-            <div className="mt-3 p-4 rounded-xl border border-white/[0.06] bg-white/[0.03] space-y-1">
-              <p><span className="text-slate-600">Nom :</span> <span className="text-slate-300">Vilmen Matthieu</span></p>
-              <p><span className="text-slate-600">Statut :</span> <span className="text-slate-300">Particulier</span></p>
+            <div className="mt-3 p-4 rounded-xl border border-zinc-200 dark:border-white/[0.06] bg-zinc-50 dark:bg-white/[0.03] space-y-1">
+              <p><span className="text-zinc-500 dark:text-zinc-500">Nom :</span> <span className="text-zinc-700 dark:text-zinc-300">Vilmen Matthieu</span></p>
+              <p><span className="text-zinc-500 dark:text-zinc-500">Statut :</span> <span className="text-zinc-700 dark:text-zinc-300">Particulier</span></p>
               <p>
-                <span className="text-slate-600">Email :</span>{" "}
-                <a href="mailto:vilmenmatthieu@gmail.com" className="text-violet-400 hover:text-violet-300 transition-colors">
+                <span className="text-zinc-500 dark:text-zinc-500">Email :</span>{" "}
+                <a href="mailto:vilmenmatthieu@gmail.com" className="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors">
                   vilmenmatthieu@gmail.com
                 </a>
               </p>
@@ -43,19 +43,19 @@ export default function MentionsLegalesPage() {
           </section>
 
           <section>
-            <h2 className="text-base font-bold text-white mb-3">2. Hébergeur</h2>
-            <div className="p-4 rounded-xl border border-white/[0.06] bg-white/[0.03] space-y-1">
-              <p><span className="text-slate-600">Société :</span> <span className="text-slate-300">Vercel Inc.</span></p>
-              <p><span className="text-slate-600">Adresse :</span> <span className="text-slate-300">340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis</span></p>
-              <p><span className="text-slate-600">Site :</span> <span className="text-slate-300">vercel.com</span></p>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white mb-3">2. Hébergeur</h2>
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-white/[0.06] bg-zinc-50 dark:bg-white/[0.03] space-y-1">
+              <p><span className="text-zinc-500 dark:text-zinc-500">Société :</span> <span className="text-zinc-700 dark:text-zinc-300">Vercel Inc.</span></p>
+              <p><span className="text-zinc-500 dark:text-zinc-500">Adresse :</span> <span className="text-zinc-700 dark:text-zinc-300">340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis</span></p>
+              <p><span className="text-zinc-500 dark:text-zinc-500">Site :</span> <span className="text-zinc-700 dark:text-zinc-300">vercel.com</span></p>
             </div>
-            <p className="mt-3 text-xs text-slate-600">
-              Les données de la base Supabase sont hébergées dans la région <strong className="text-slate-500">EU West (Irlande)</strong>, au sein de l&apos;Union européenne.
+            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-500">
+              Les données de la base Supabase sont hébergées dans la région <strong className="text-zinc-600 dark:text-zinc-400">EU West (Irlande)</strong>, au sein de l&apos;Union européenne.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-bold text-white mb-3">3. Propriété intellectuelle</h2>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white mb-3">3. Propriété intellectuelle</h2>
             <p>
               L&apos;ensemble des contenus présents sur ce site (textes, graphismes, algorithmes, structure) est protégé par le droit d&apos;auteur. Toute reproduction, même partielle, est interdite sans autorisation préalable de l&apos;éditeur.
             </p>
@@ -65,9 +65,9 @@ export default function MentionsLegalesPage() {
           </section>
 
           <section>
-            <h2 className="text-base font-bold text-white mb-3">4. Système algorithmique – Transparence IA</h2>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white mb-3">4. Système algorithmique – Transparence IA</h2>
             <p>
-              Conformément au <strong className="text-slate-300">Règlement européen sur l&apos;intelligence artificielle (EU AI Act, 2024)</strong> et aux recommandations du Ministère de l&apos;Éducation Nationale en matière de systèmes d&apos;orientation automatisés :
+              Conformément au <strong className="text-zinc-700 dark:text-zinc-300">Règlement européen sur l&apos;intelligence artificielle (EU AI Act, 2024)</strong> et aux recommandations du Ministère de l&apos;Éducation Nationale en matière de systèmes d&apos;orientation automatisés :
             </p>
             <ul className="mt-3 space-y-2 list-none">
               {[
@@ -78,7 +78,7 @@ export default function MentionsLegalesPage() {
                 "L'utilisateur peut contester ou ignorer les résultats à tout moment.",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <span className="text-violet-500 mt-0.5 flex-shrink-0">▸</span>
+                  <span className="text-violet-600 dark:text-violet-500 mt-0.5 flex-shrink-0">▸</span>
                   {item}
                 </li>
               ))}
@@ -86,28 +86,28 @@ export default function MentionsLegalesPage() {
           </section>
 
           <section>
-            <h2 className="text-base font-bold text-white mb-3">5. Limitation de responsabilité</h2>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white mb-3">5. Limitation de responsabilité</h2>
             <p>
               L&apos;éditeur s&apos;efforce d&apos;assurer l&apos;exactitude des informations diffusées. Toutefois, il ne peut garantir l&apos;exhaustivité ni la précision des profils et recommandations générés. L&apos;utilisateur est seul responsable de l&apos;usage qu&apos;il fait des informations fournies.
             </p>
           </section>
 
           <section>
-            <h2 className="text-base font-bold text-white mb-3">6. Droit applicable</h2>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white mb-3">6. Droit applicable</h2>
             <p>
               Le présent site est soumis au droit français. Tout litige relatif à son utilisation sera soumis à la compétence exclusive des tribunaux français.
             </p>
           </section>
 
-          <div className="pt-4 border-t border-white/[0.06]">
-            <p className="text-xs text-slate-700">
+          <div className="pt-4 border-t border-zinc-200 dark:border-white/[0.06]">
+            <p className="text-xs text-zinc-400 dark:text-zinc-600">
               Dernière mise à jour : {new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
             </p>
           </div>
         </div>
 
         <div className="mt-10">
-          <Link href="/" className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
+          <Link href="/" className="text-xs text-zinc-500 dark:text-zinc-500 hover:text-slate-400 transition-colors">
             ← Retour à l&apos;accueil
           </Link>
         </div>

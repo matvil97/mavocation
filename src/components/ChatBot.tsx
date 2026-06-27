@@ -43,7 +43,6 @@ export default function ChatBot() {
     setInput("");
     setLoading(true);
 
-    // History sent to API = everything except welcome
     const historyForApi = messages.slice(1).slice(-8);
 
     setMessages((prev) => [
@@ -104,16 +103,11 @@ export default function ChatBot() {
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Fermer l'assistant" : "Ouvrir l'assistant IA"}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 hover:shadow-violet-600/50 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center"
       >
         {open ? (
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M5 5l10 10M15 5L5 15"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
+            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
         ) : (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -130,44 +124,40 @@ export default function ChatBot() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-2rem)] h-[480px] max-h-[calc(100vh-8rem)] flex flex-col rounded-2xl border border-white/[0.08] bg-[#0d0d1a]/95 backdrop-blur-xl shadow-2xl shadow-black/60 overflow-hidden">
+        <div className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-2rem)] h-[480px] max-h-[calc(100vh-8rem)] flex flex-col rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0d0d1a] shadow-2xl shadow-zinc-900/20 dark:shadow-black/60 overflow-hidden">
+
           {/* Header */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06] flex-shrink-0">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-100 dark:border-white/[0.06] flex-shrink-0 bg-zinc-50 dark:bg-white/[0.02]">
+            <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center flex-shrink-0">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path
-                  d="M9.5 2a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM14.5 17a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM2 9.5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0zM17 14.5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0z"
-                  fill="white"
-                  opacity=".6"
-                />
-                <path
-                  d="M9.5 4.5L14.5 19.5M4.5 9.5L19.5 14.5"
+                  d="M12 3C7.03 3 3 6.58 3 11c0 2.3.97 4.37 2.53 5.87L4.5 21l4.5-1.5c.97.32 2 .5 3 .5 4.97 0 9-3.58 9-8s-4.03-8-9-8z"
                   stroke="white"
-                  strokeWidth="1.5"
-                  opacity=".4"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white leading-none">
+              <p className="text-sm font-semibold text-zinc-900 dark:text-white leading-none">
                 Assistant Mavocation
               </p>
-              <p className="text-[10px] text-slate-500 mt-0.5">
+              <p className="text-[10px] text-zinc-500 dark:text-zinc-500 mt-0.5">
                 IA · RIASEC · Holland
               </p>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="text-[10px] text-slate-600">En ligne</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="text-[10px] text-zinc-500 dark:text-zinc-600">En ligne</span>
             </div>
           </div>
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0">
-            {/* Suggestion chips on first open */}
             {!hasConversation && (
               <div className="pt-1 pb-2">
-                <p className="text-[10px] text-slate-600 text-center mb-2">
+                <p className="text-[10px] text-zinc-500 dark:text-zinc-600 text-center mb-2">
                   Questions fréquentes
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -175,7 +165,7 @@ export default function ChatBot() {
                     <button
                       key={s}
                       onClick={() => send(s)}
-                      className="text-[11px] px-2.5 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 transition-colors"
+                      className="text-[11px] px-2.5 py-1.5 rounded-full border border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-500/20 transition-colors"
                     >
                       {s}
                     </button>
@@ -192,24 +182,15 @@ export default function ChatBot() {
                 <div
                   className={`max-w-[85%] px-3 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === "user"
-                      ? "bg-gradient-to-br from-violet-600 to-violet-700 text-white rounded-tr-sm"
-                      : "bg-white/[0.05] border border-white/[0.06] text-slate-300 rounded-tl-sm"
+                      ? "bg-violet-600 text-white rounded-tr-sm"
+                      : "bg-zinc-100 dark:bg-white/[0.05] border border-zinc-200 dark:border-white/[0.06] text-zinc-800 dark:text-zinc-300 rounded-tl-sm"
                   }`}
                 >
                   {msg.content || (
                     <span className="inline-flex items-center gap-1 py-0.5">
-                      <span
-                        className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"
-                        style={{ animationDelay: "0ms" }}
-                      />
-                      <span
-                        className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"
-                        style={{ animationDelay: "150ms" }}
-                      />
-                      <span
-                        className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"
-                        style={{ animationDelay: "300ms" }}
-                      />
+                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                     </span>
                   )}
                 </div>
@@ -222,7 +203,7 @@ export default function ChatBot() {
           {/* Input */}
           <form
             onSubmit={handleSubmit}
-            className="flex items-center gap-2 p-3 border-t border-white/[0.06] flex-shrink-0"
+            className="flex items-center gap-2 p-3 border-t border-zinc-100 dark:border-white/[0.06] flex-shrink-0 bg-zinc-50 dark:bg-white/[0.02]"
           >
             <input
               ref={inputRef}
@@ -232,13 +213,13 @@ export default function ChatBot() {
               placeholder="Pose ta question..."
               disabled={loading}
               maxLength={500}
-              className="flex-1 bg-white/[0.05] border border-white/[0.08] rounded-xl px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500/40 focus:bg-white/[0.07] transition-all disabled:opacity-50 min-w-0"
+              className="flex-1 bg-white dark:bg-white/[0.05] border border-zinc-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500/40 focus:ring-2 focus:ring-violet-100 dark:focus:ring-0 transition-all disabled:opacity-50 min-w-0"
             />
             <button
               type="submit"
               disabled={!input.trim() || loading}
               aria-label="Envoyer"
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 text-white flex items-center justify-center hover:opacity-90 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+              className="w-9 h-9 rounded-xl bg-violet-600 hover:bg-violet-700 text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0 active:scale-95"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                 <path
@@ -253,9 +234,8 @@ export default function ChatBot() {
           </form>
 
           {/* Disclaimer */}
-          <p className="px-4 py-1.5 text-[9px] text-slate-700 text-center flex-shrink-0">
-            IA générative · Indicatif uniquement · Non substitut d&apos;un
-            conseiller agréé
+          <p className="px-4 py-1.5 text-[9px] text-zinc-400 dark:text-zinc-700 text-center flex-shrink-0 border-t border-zinc-100 dark:border-white/[0.04]">
+            IA générative · Indicatif uniquement · Non substitut d&apos;un conseiller agréé
           </p>
         </div>
       )}
