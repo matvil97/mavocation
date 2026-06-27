@@ -4,6 +4,15 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+async function sendEmail(to: string, _toName: string, subject: string, html: string) {
+  await resend.emails.send({
+    from: "Mavocation <onboarding@resend.dev>",
+    to,
+    subject,
+    html,
+  });
+}
+
 interface CareerSummary {
   title: string;
   hollandCode: string;
@@ -200,11 +209,7 @@ export async function POST(req: NextRequest) {
     `).join("");
 
     await Promise.all([
-      resend.emails.send({
-        from: "Mavocation <onboarding@resend.dev>",
-        to: "vilmenmatthieu@gmail.com",
-        subject: `Lead ${body.prenom} · ${body.profileCode} · ${body.topCareer}`,
-        html: `
+      sendEmail("vilmenmatthieu@gmail.com", "Matthieu", `Lead ${body.prenom} · ${body.profileCode} · ${body.topCareer}`, `
 <div style="font-family:system-ui,-apple-system,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;">
 
   <div style="padding:18px 24px;background:#07070f;display:flex;align-items:center;gap:8px;">
@@ -237,15 +242,9 @@ export async function POST(req: NextRequest) {
     <table width="100%" cellpadding="0" cellspacing="0">${adminCareersHtml}</table>
   </div>
 
-</div>`,
-      }),
+</div>`),
 
-      resend.emails.send({
-        from: "Mavocation <onboarding@resend.dev>",
-        to: body.email,
-        subject: `${body.prenom}, ton profil ${body.profileCode} est prêt – Mavocation`,
-        html: buildUserEmail(body),
-      }),
+      sendEmail(body.email, body.prenom, `${body.prenom}, ton profil ${body.profileCode} est prêt – Mavocation`, buildUserEmail(body)),
     ]);
   } catch (emailErr) {
     console.error("[LEAD] Email error:", emailErr);
