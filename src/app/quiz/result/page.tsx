@@ -26,6 +26,54 @@ const DIMENSION_COLOR: Record<Dimension, string> = {
   C: "bg-pink-700",
 };
 
+const FILIERES: Record<Dimension, { generale: string[]; techno: string[]; pro: string[] }> = {
+  R: {
+    generale: ["Maths", "Physique-Chimie", "Sciences de l'Ingénieur"],
+    techno: ["STI2D"],
+    pro: ["Bac Pro Maintenance Industrielle", "Bac Pro Électrotechnique"],
+  },
+  I: {
+    generale: ["Maths", "SVT", "Physique-Chimie", "NSI"],
+    techno: ["STL"],
+    pro: ["Bac Pro Laboratoire Contrôle Qualité"],
+  },
+  A: {
+    generale: ["Arts plastiques", "Humanités, Litt. & Philo.", "LLCE"],
+    techno: ["STD2A"],
+    pro: ["Bac Pro Artisanat et Métiers d'Art"],
+  },
+  S: {
+    generale: ["SES", "HGGSP", "SVT"],
+    techno: ["ST2S", "STHR"],
+    pro: ["Bac Pro ASSP"],
+  },
+  E: {
+    generale: ["SES", "HGGSP", "Maths"],
+    techno: ["STMG"],
+    pro: ["Bac Pro Commerce", "Bac Pro Management"],
+  },
+  C: {
+    generale: ["Maths", "SES", "NSI"],
+    techno: ["STMG"],
+    pro: ["Bac Pro Gestion-Administration"],
+  },
+};
+
+function getFiliereSuggestions(dominants: Dimension[]) {
+  const top2 = dominants.slice(0, 2);
+  const merge = (key: "generale" | "techno" | "pro") => {
+    const seen = new Set<string>();
+    const result: string[] = [];
+    for (const d of top2) {
+      for (const item of FILIERES[d][key]) {
+        if (!seen.has(item)) { seen.add(item); result.push(item); }
+      }
+    }
+    return result.slice(0, 5);
+  };
+  return { generale: merge("generale"), techno: merge("techno"), pro: merge("pro") };
+}
+
 const SECTOR_ICONS: Record<string, string> = {
   "Tech": "⬡",
   "Design / Tech": "◈",
@@ -202,6 +250,59 @@ export default function ResultPage() {
             ))}
           </div>
         </div>
+
+        {/* Filières recommandées */}
+        {(() => {
+          const { generale, techno, pro } = getFiliereSuggestions(profile.dominants);
+          return (
+            <div className="rounded-2xl border border-zinc-200 dark:border-white/[0.06] bg-zinc-50 dark:bg-white/[0.03] p-6 mb-6">
+              <p className="text-[10px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-600 uppercase mb-5">
+                Filières recommandées
+              </p>
+              <div className="space-y-5">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-400 mb-2">
+                    Voie générale <span className="font-normal normal-case text-zinc-400 dark:text-zinc-600">· spécialités</span>
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {generale.map((s) => (
+                      <span key={s} className="text-xs px-2.5 py-1 rounded-lg border border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 font-medium">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-400 mb-2">
+                    Voie technologique
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {techno.map((s) => (
+                      <span key={s} className="text-xs px-2.5 py-1 rounded-lg border border-sky-200 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 font-medium">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
+                    Voie professionnelle
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {pro.map((s) => (
+                      <span key={s} className="text-xs px-2.5 py-1 rounded-lg border border-teal-200 dark:border-teal-500/30 bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-300 font-medium">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="mt-5 text-[10px] text-zinc-400 dark:text-zinc-600 leading-relaxed">
+                Indicatif, basé sur ton profil <span className="font-mono">{profile.code}</span>. Consulte un conseiller d&apos;orientation pour un avis personnalisé.
+              </p>
+            </div>
+          );
+        })()}
 
         {/* Lead capture */}
         <div className="rounded-2xl border border-violet-300 dark:border-violet-500/20 bg-violet-50 dark:bg-gradient-to-br dark:from-violet-950/60 dark:to-slate-950/60 p-7 mb-8">
