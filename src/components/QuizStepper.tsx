@@ -41,7 +41,14 @@ export default function QuizStepper() {
     <div className="min-h-screen flex flex-col">
 
       {/* Progress bar */}
-      <div className="w-full h-1 bg-zinc-100 dark:bg-white/[0.06]">
+      <div
+        role="progressbar"
+        aria-valuenow={step + 1}
+        aria-valuemin={1}
+        aria-valuemax={QUESTIONS.length}
+        aria-label={`Question ${step + 1} sur ${QUESTIONS.length}`}
+        className="w-full h-1 bg-zinc-100 dark:bg-white/[0.06]"
+      >
         <div
           className="h-full bg-violet-600 dark:bg-violet-500 transition-all duration-500"
           style={{ width: `${progress}%` }}
@@ -50,21 +57,25 @@ export default function QuizStepper() {
 
       {/* Header */}
       <div className="px-6 py-5 flex items-center justify-between max-w-2xl mx-auto w-full">
-        <span className="text-sm font-bold tracking-tight">
-          <span className="text-violet-600 dark:text-violet-400">ma</span>
-          <span>vocation</span>
+        <span className="text-sm font-bold tracking-tight" aria-label="Mavocation">
+          <span className="text-violet-600 dark:text-violet-400" aria-hidden="true">ma</span>
+          <span aria-hidden="true">vocation</span>
         </span>
-        <span className="text-xs font-mono text-zinc-400 dark:text-zinc-600 tracking-widest">
+        <span
+          className="text-xs font-mono text-zinc-400 dark:text-zinc-600 tracking-widest"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           {String(step + 1).padStart(2, "0")} / {QUESTIONS.length}
         </span>
       </div>
 
       {/* Question */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-16">
+      <main id="main-content" className="flex-1 flex flex-col items-center justify-center px-6 pb-16">
         <div className="w-full max-w-2xl">
 
-          {/* Step indicators */}
-          <div className="flex gap-1 mb-8">
+          {/* Step indicators — décoratif, masqué aux lecteurs d'écran */}
+          <div className="flex gap-1 mb-8" aria-hidden="true">
             {QUESTIONS.map((_, i) => (
               <div
                 key={i}
@@ -79,11 +90,14 @@ export default function QuizStepper() {
             ))}
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-10 leading-snug">
+          <h2
+            id="question-text"
+            className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-10 leading-snug"
+          >
             {question.text}
           </h2>
 
-          <div className="grid gap-3">
+          <div role="group" aria-labelledby="question-text" className="grid gap-3">
             {question.options.map((option, idx) => {
               const isSelected = selected === idx;
               const letters = ["A", "B", "C", "D"];
@@ -92,6 +106,7 @@ export default function QuizStepper() {
                   key={idx}
                   onClick={() => handleSelect(idx)}
                   disabled={animating}
+                  aria-pressed={isSelected}
                   className={`
                     group w-full text-left px-5 py-4 rounded-xl border text-sm font-medium
                     transition-all duration-200 cursor-pointer disabled:cursor-not-allowed
@@ -104,6 +119,7 @@ export default function QuizStepper() {
                 >
                   <span className="flex items-center gap-4">
                     <span
+                      aria-hidden="true"
                       className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-mono transition-colors
                         ${isSelected
                           ? "bg-violet-600 text-white"
@@ -115,7 +131,7 @@ export default function QuizStepper() {
                     </span>
                     <span>{option.label}</span>
                     {isSelected && (
-                      <span className="ml-auto text-violet-600 dark:text-violet-400 font-bold">✓</span>
+                      <span className="ml-auto text-violet-600 dark:text-violet-400 font-bold" aria-hidden="true">✓</span>
                     )}
                   </span>
                 </button>
@@ -123,7 +139,7 @@ export default function QuizStepper() {
             })}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

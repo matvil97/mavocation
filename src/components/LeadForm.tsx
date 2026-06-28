@@ -42,7 +42,7 @@ export default function LeadForm({ profileCode, topCareer, dominants, normalized
 
   if (status === "success") {
     return (
-      <div className="text-center py-6">
+      <div className="text-center py-6" role="status" aria-live="polite">
         <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center text-2xl mx-auto mb-4 text-emerald-600 dark:text-emerald-400">
           ✓
         </div>
@@ -66,6 +66,7 @@ export default function LeadForm({ profileCode, topCareer, dominants, normalized
           <input
             type="text"
             required
+            aria-required="true"
             placeholder="Marie"
             value={form.prenom}
             onChange={(e) => setForm({ ...form, prenom: e.target.value })}
@@ -79,6 +80,7 @@ export default function LeadForm({ profileCode, topCareer, dominants, normalized
           <input
             type="email"
             required
+            aria-required="true"
             placeholder="marie@exemple.com"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -127,7 +129,11 @@ export default function LeadForm({ profileCode, topCareer, dominants, normalized
       </div>
 
       {status === "error" && (
-        <p className="text-xs text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg px-3 py-2">
+        <p
+          role="alert"
+          aria-live="assertive"
+          className="text-xs text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg px-3 py-2"
+        >
           Une erreur s&apos;est produite. Réessaie dans quelques secondes.
         </p>
       )}

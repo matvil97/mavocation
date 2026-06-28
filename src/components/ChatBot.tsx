@@ -124,7 +124,12 @@ export default function ChatBot() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-2rem)] h-[480px] max-h-[calc(100vh-8rem)] flex flex-col rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0d0d1a] shadow-2xl shadow-zinc-900/20 dark:shadow-black/60 overflow-hidden">
+        <div
+          role="dialog"
+          aria-label="Assistant Mavocation"
+          aria-modal="false"
+          className="fixed bottom-24 right-6 z-50 w-[340px] max-w-[calc(100vw-2rem)] h-[480px] max-h-[calc(100vh-8rem)] flex flex-col rounded-2xl border border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0d0d1a] shadow-2xl shadow-zinc-900/20 dark:shadow-black/60 overflow-hidden"
+        >
 
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-100 dark:border-white/[0.06] flex-shrink-0 bg-zinc-50 dark:bg-white/[0.02]">
@@ -154,7 +159,12 @@ export default function ChatBot() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0">
+          <div
+            role="log"
+            aria-live="polite"
+            aria-label="Messages de l'assistant"
+            className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0"
+          >
             {!hasConversation && (
               <div className="pt-1 pb-2">
                 <p className="text-[10px] text-zinc-500 dark:text-zinc-600 text-center mb-2">
@@ -187,10 +197,10 @@ export default function ChatBot() {
                   }`}
                 >
                   {msg.content || (
-                    <span className="inline-flex items-center gap-1 py-0.5">
-                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <span className="inline-flex items-center gap-1 py-0.5" aria-label="L'assistant rédige une réponse…">
+                      <span aria-hidden="true" className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span aria-hidden="true" className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span aria-hidden="true" className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                     </span>
                   )}
                 </div>
@@ -208,6 +218,7 @@ export default function ChatBot() {
             <input
               ref={inputRef}
               type="text"
+              aria-label="Écrire un message à l'assistant"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pose ta question..."

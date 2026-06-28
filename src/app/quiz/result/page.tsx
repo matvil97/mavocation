@@ -116,7 +116,7 @@ export default function ResultPage() {
   );
 
   return (
-    <div className="min-h-screen">
+    <main id="main-content" className="min-h-screen">
 
       {/* Background glows */}
       <div className="fixed inset-0 pointer-events-none">
@@ -182,14 +182,21 @@ export default function ResultPage() {
           <div className="space-y-3">
             {sortedDimensions.map((dim) => (
               <div key={dim} className="flex items-center gap-4">
-                <span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-500 w-4">{dim}</span>
-                <div className="flex-1 h-2 bg-zinc-200 dark:bg-white/[0.06] rounded-full overflow-hidden">
+                <span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-500 w-4" aria-hidden="true">{dim}</span>
+                <div
+                  role="meter"
+                  aria-label={`${DIMENSION_LABELS[dim]} : ${normalized[dim]} %`}
+                  aria-valuenow={normalized[dim]}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  className="flex-1 h-2 bg-zinc-200 dark:bg-white/[0.06] rounded-full overflow-hidden"
+                >
                   <div
                     className={`h-full rounded-full ${DIMENSION_COLOR[dim]} transition-all duration-700`}
                     style={{ width: `${normalized[dim]}%` }}
                   />
                 </div>
-                <span className="text-xs font-mono text-zinc-500 dark:text-zinc-500 w-8 text-right">{normalized[dim]}%</span>
+                <span className="text-xs font-mono text-zinc-500 dark:text-zinc-500 w-8 text-right" aria-hidden="true">{normalized[dim]}%</span>
               </div>
             ))}
           </div>
@@ -200,8 +207,9 @@ export default function ResultPage() {
           <p className="text-[10px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-600 uppercase mb-4">Métiers compatibles</p>
           <div className="space-y-3">
             {careers.map((career, idx) => (
-              <div
+              <article
                 key={career.id}
+                aria-label={`${idx === 0 ? "Meilleure correspondance : " : ""}${career.title}`}
                 className={`rounded-2xl border p-5 transition-all duration-300 ${
                   idx === 0
                     ? "border-violet-300 dark:border-violet-500/40 bg-violet-50 dark:bg-violet-500/[0.07]"
@@ -246,7 +254,7 @@ export default function ResultPage() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -360,6 +368,6 @@ export default function ResultPage() {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }
