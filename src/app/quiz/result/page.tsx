@@ -292,8 +292,8 @@ export default function ResultPage() {
         {/* Filières recommandées */}
         {(() => {
           const f = getFiliereSuggestions(profile.dominants);
-          const chip = (color: string, s: string) => (
-            <span key={s} className={`text-xs px-2 py-1 rounded-lg border font-medium ${color}`}>{s}</span>
+          const chip = (s: string) => (
+            <span key={s} className="text-xs px-2 py-1 rounded-lg border border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-medium">{s}</span>
           );
           return (
             <div className="rounded-2xl border border-zinc-200 dark:border-white/[0.06] bg-zinc-50 dark:bg-white/[0.03] p-6 mb-6">
@@ -312,19 +312,19 @@ export default function ResultPage() {
                     <div>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Voie générale · spécialités</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {f.lyceeGenerale.map(s => chip("border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300", s))}
+                        {f.lyceeGenerale.map(s => chip(s))}
                       </div>
                     </div>
                     <div>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Voie technologique</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {f.lyceeTechno.map(s => chip("border-sky-200 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300", s))}
+                        {f.lyceeTechno.map(s => chip(s))}
                       </div>
                     </div>
                     <div>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Bac Professionnel</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {f.lyceePro.map(s => chip("border-teal-200 dark:border-teal-500/30 bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-300", s))}
+                        {f.lyceePro.map(s => chip(s))}
                       </div>
                     </div>
                   </div>
@@ -340,26 +340,26 @@ export default function ResultPage() {
                     <div>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">BTS <span className="normal-case">(2 ans)</span></p>
                       <div className="flex flex-wrap gap-1.5">
-                        {f.bts.map(s => chip("border-orange-200 dark:border-orange-500/30 bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-300", s))}
+                        {f.bts.map(s => chip(s))}
                       </div>
                     </div>
                     <div>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">BUT <span className="normal-case">(3 ans, ex-DUT)</span></p>
                       <div className="flex flex-wrap gap-1.5">
-                        {f.but.map(s => chip("border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300", s))}
+                        {f.but.map(s => chip(s))}
                       </div>
                     </div>
                     <div>
                       <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Licence / Université</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {f.licence.map(s => chip("border-pink-200 dark:border-pink-500/30 bg-pink-50 dark:bg-pink-500/10 text-pink-700 dark:text-pink-300", s))}
+                        {f.licence.map(s => chip(s))}
                       </div>
                     </div>
                     {f.prepa.length > 0 && (
                       <div>
                         <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Classes prépa <span className="normal-case">(CPGE)</span></p>
                         <div className="flex flex-wrap gap-1.5">
-                          {f.prepa.map(s => chip("border-zinc-200 dark:border-zinc-500/30 bg-zinc-100 dark:bg-zinc-700/30 text-zinc-700 dark:text-zinc-300", s))}
+                          {f.prepa.map(s => chip(s))}
                         </div>
                       </div>
                     )}
