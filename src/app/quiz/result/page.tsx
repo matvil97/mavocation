@@ -26,42 +26,67 @@ const DIMENSION_COLOR: Record<Dimension, string> = {
   C: "bg-pink-700",
 };
 
-const FILIERES: Record<Dimension, { generale: string[]; techno: string[]; pro: string[] }> = {
+type FiliereKeys = "lyceeGenerale" | "lyceeTechno" | "lyceePro" | "bts" | "but" | "licence" | "prepa";
+const FILIERES: Record<Dimension, Record<FiliereKeys, string[]>> = {
   R: {
-    generale: ["Maths", "Physique-Chimie", "Sciences de l'Ingénieur"],
-    techno: ["STI2D"],
-    pro: ["Bac Pro Maintenance Industrielle", "Bac Pro Électrotechnique"],
+    lyceeGenerale: ["Maths", "Physique-Chimie", "Sciences de l'Ingénieur", "NSI"],
+    lyceeTechno: ["STI2D"],
+    lyceePro: ["Bac Pro Maintenance Industrielle", "Bac Pro Électrotechnique"],
+    bts: ["BTS Électrotechnique", "BTS Maintenance des Systèmes", "BTS Bâtiment"],
+    but: ["BUT Génie Mécanique (GMP)", "BUT Génie Civil (GCCD)", "BUT Réseaux & Télécoms"],
+    licence: ["Licence Sciences pour l'Ingénieur", "Licence Génie Mécanique"],
+    prepa: ["MPSI", "PTSI", "PSI"],
   },
   I: {
-    generale: ["Maths", "SVT", "Physique-Chimie", "NSI"],
-    techno: ["STL"],
-    pro: ["Bac Pro Laboratoire Contrôle Qualité"],
+    lyceeGenerale: ["Maths", "Physique-Chimie", "SVT", "NSI"],
+    lyceeTechno: ["STL"],
+    lyceePro: ["Bac Pro Laboratoire Contrôle Qualité"],
+    bts: ["BTS Analyses de Biologie Médicale", "BTS Bioanalyses et Contrôles"],
+    but: ["BUT Chimie", "BUT Biologie", "BUT Mesures Physiques"],
+    licence: ["Licence Mathématiques", "Licence Physique", "Licence Chimie", "Licence Informatique"],
+    prepa: ["MPSI", "PCSI", "BCPST"],
   },
   A: {
-    generale: ["Arts plastiques", "Humanités, Litt. & Philo.", "LLCE"],
-    techno: ["STD2A"],
-    pro: ["Bac Pro Artisanat et Métiers d'Art"],
+    lyceeGenerale: ["Arts plastiques", "Humanités, Litt. & Philo.", "LLCER"],
+    lyceeTechno: ["STD2A", "S2TMD"],
+    lyceePro: ["Bac Pro Arts du Livre", "Bac Pro Communication Visuelle"],
+    bts: ["BTS Design Graphique", "BTS Design de Mode", "BTS Communication"],
+    but: ["BUT MMI (Multimédia & Internet)", "BUT Infocom"],
+    licence: ["Licence Arts plastiques", "Licence Lettres", "Licence Info-Com"],
+    prepa: [],
   },
   S: {
-    generale: ["SES", "HGGSP", "SVT"],
-    techno: ["ST2S", "STHR"],
-    pro: ["Bac Pro ASSP"],
+    lyceeGenerale: ["SES", "HGGSP", "SVT"],
+    lyceeTechno: ["ST2S", "STHR"],
+    lyceePro: ["Bac Pro ASSP", "Bac Pro Animation"],
+    bts: ["BTS SP3S", "BTS ESF (Éco. Sociale Familiale)"],
+    but: ["BUT Carrières Sociales"],
+    licence: ["Licence Psychologie", "Licence Sociologie", "Licence Sciences de l'Éducation"],
+    prepa: [],
   },
   E: {
-    generale: ["SES", "HGGSP", "Maths"],
-    techno: ["STMG"],
-    pro: ["Bac Pro Commerce", "Bac Pro Management"],
+    lyceeGenerale: ["SES", "HGGSP", "Maths"],
+    lyceeTechno: ["STMG"],
+    lyceePro: ["Bac Pro MCO (Management Commercial)"],
+    bts: ["BTS MCO", "BTS NDRC (Négociation & Relation Client)", "BTS Communication"],
+    but: ["BUT Techniques de Commercialisation (TC)", "BUT GEA"],
+    licence: ["Licence Sciences de Gestion", "Licence AES"],
+    prepa: ["ECG (Éco-Commerciale Générale)"],
   },
   C: {
-    generale: ["Maths", "SES", "NSI"],
-    techno: ["STMG"],
-    pro: ["Bac Pro Gestion-Administration"],
+    lyceeGenerale: ["Maths", "SES", "NSI"],
+    lyceeTechno: ["STMG (Gestion-Finance)", "STMG (Systèmes d'Info.)"],
+    lyceePro: ["Bac Pro Gestion-Administration"],
+    bts: ["BTS Comptabilité et Gestion (CG)", "BTS SAM (Support Action Managériale)"],
+    but: ["BUT GEA (Gestion des Entreprises)", "BUT STID (Stats & Info Décisionnelle)"],
+    licence: ["Licence Économie-Gestion", "Licence AES"],
+    prepa: ["ECG (Éco-Commerciale Générale)"],
   },
 };
 
 function getFiliereSuggestions(dominants: Dimension[]) {
   const top2 = dominants.slice(0, 2);
-  const merge = (key: "generale" | "techno" | "pro") => {
+  const merge = (key: FiliereKeys) => {
     const seen = new Set<string>();
     const result: string[] = [];
     for (const d of top2) {
@@ -71,7 +96,15 @@ function getFiliereSuggestions(dominants: Dimension[]) {
     }
     return result.slice(0, 5);
   };
-  return { generale: merge("generale"), techno: merge("techno"), pro: merge("pro") };
+  return {
+    lyceeGenerale: merge("lyceeGenerale"),
+    lyceeTechno: merge("lyceeTechno"),
+    lyceePro: merge("lyceePro"),
+    bts: merge("bts"),
+    but: merge("but"),
+    licence: merge("licence"),
+    prepa: merge("prepa"),
+  };
 }
 
 const SECTOR_ICONS: Record<string, string> = {
@@ -145,8 +178,11 @@ export default function ResultPage() {
           </div>
 
           <div className="mb-3">
-            <span className="text-7xl sm:text-8xl font-extrabold font-mono text-violet-600 dark:text-violet-400 tracking-widest">
+            <span aria-hidden="true" className="text-7xl sm:text-8xl font-extrabold font-mono text-violet-600 dark:text-violet-400 tracking-widest">
               {profile.code}
+            </span>
+            <span className="sr-only">
+              Ton code Holland est {profile.code}, avec comme dimensions dominantes : {profile.dominants.map(d => DIMENSION_LABELS[d]).join(", ")}.
             </span>
           </div>
 
@@ -182,21 +218,15 @@ export default function ResultPage() {
           <div className="space-y-3">
             {sortedDimensions.map((dim) => (
               <div key={dim} className="flex items-center gap-4">
-                <span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-500 w-4" aria-hidden="true">{dim}</span>
-                <div
-                  role="meter"
-                  aria-label={`${DIMENSION_LABELS[dim]} : ${normalized[dim]} %`}
-                  aria-valuenow={normalized[dim]}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  className="flex-1 h-2 bg-zinc-200 dark:bg-white/[0.06] rounded-full overflow-hidden"
-                >
+                <span className="sr-only">{DIMENSION_LABELS[dim]} : {normalized[dim]} pour cent</span>
+                <span aria-hidden="true" className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-500 w-4">{dim}</span>
+                <div aria-hidden="true" className="flex-1 h-2 bg-zinc-200 dark:bg-white/[0.06] rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full ${DIMENSION_COLOR[dim]} transition-all duration-700`}
                     style={{ width: `${normalized[dim]}%` }}
                   />
                 </div>
-                <span className="text-xs font-mono text-zinc-500 dark:text-zinc-500 w-8 text-right" aria-hidden="true">{normalized[dim]}%</span>
+                <span aria-hidden="true" className="text-xs font-mono text-zinc-500 dark:text-zinc-500 w-8 text-right">{normalized[dim]}%</span>
               </div>
             ))}
           </div>
@@ -261,49 +291,81 @@ export default function ResultPage() {
 
         {/* Filières recommandées */}
         {(() => {
-          const { generale, techno, pro } = getFiliereSuggestions(profile.dominants);
+          const f = getFiliereSuggestions(profile.dominants);
+          const chip = (color: string, s: string) => (
+            <span key={s} className={`text-xs px-2 py-1 rounded-lg border font-medium ${color}`}>{s}</span>
+          );
           return (
             <div className="rounded-2xl border border-zinc-200 dark:border-white/[0.06] bg-zinc-50 dark:bg-white/[0.03] p-6 mb-6">
               <p className="text-[10px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-600 uppercase mb-5">
                 Filières recommandées
               </p>
-              <div className="space-y-5">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-400 mb-2">
-                    Voie générale <span className="font-normal normal-case text-zinc-400 dark:text-zinc-600">· spécialités</span>
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {generale.map((s) => (
-                      <span key={s} className="text-xs px-2.5 py-1 rounded-lg border border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 font-medium">
-                        {s}
-                      </span>
-                    ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                {/* Lycée */}
+                <section aria-label="Au lycée">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span aria-hidden="true" className="w-2 h-2 rounded-full bg-violet-600 flex-shrink-0" />
+                    <span className="text-xs font-bold text-violet-700 dark:text-violet-400 uppercase tracking-wider">Au lycée</span>
                   </div>
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-sky-400 mb-2">
-                    Voie technologique
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {techno.map((s) => (
-                      <span key={s} className="text-xs px-2.5 py-1 rounded-lg border border-sky-200 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 font-medium">
-                        {s}
-                      </span>
-                    ))}
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Voie générale · spécialités</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {f.lyceeGenerale.map(s => chip("border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300", s))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Voie technologique</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {f.lyceeTechno.map(s => chip("border-sky-200 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300", s))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Bac Professionnel</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {f.lyceePro.map(s => chip("border-teal-200 dark:border-teal-500/30 bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-300", s))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 mb-2">
-                    Voie professionnelle
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {pro.map((s) => (
-                      <span key={s} className="text-xs px-2.5 py-1 rounded-lg border border-teal-200 dark:border-teal-500/30 bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-300 font-medium">
-                        {s}
-                      </span>
-                    ))}
+                </section>
+
+                {/* Après le bac */}
+                <section aria-label="Après le bac">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span aria-hidden="true" className="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0" />
+                    <span className="text-xs font-bold text-orange-700 dark:text-orange-400 uppercase tracking-wider">Après le bac</span>
                   </div>
-                </div>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">BTS <span className="normal-case">(2 ans)</span></p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {f.bts.map(s => chip("border-orange-200 dark:border-orange-500/30 bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-300", s))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">BUT <span className="normal-case">(3 ans, ex-DUT)</span></p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {f.but.map(s => chip("border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300", s))}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Licence / Université</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {f.licence.map(s => chip("border-pink-200 dark:border-pink-500/30 bg-pink-50 dark:bg-pink-500/10 text-pink-700 dark:text-pink-300", s))}
+                      </div>
+                    </div>
+                    {f.prepa.length > 0 && (
+                      <div>
+                        <p className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase tracking-wider mb-1.5">Classes prépa <span className="normal-case">(CPGE)</span></p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {f.prepa.map(s => chip("border-zinc-200 dark:border-zinc-500/30 bg-zinc-100 dark:bg-zinc-700/30 text-zinc-700 dark:text-zinc-300", s))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </section>
+
               </div>
               <p className="mt-5 text-[10px] text-zinc-400 dark:text-zinc-600 leading-relaxed">
                 Indicatif, basé sur ton profil <span className="font-mono">{profile.code}</span>. Consulte un conseiller d&apos;orientation pour un avis personnalisé.
